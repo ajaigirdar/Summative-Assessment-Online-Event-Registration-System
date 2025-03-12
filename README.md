@@ -22,7 +22,7 @@ The Event Management Application is a full-stack web application that allows use
 
 - **User Features:**
   - **Account Management:**  
-    - User registration with secure password storage (using BCrypt).
+    - User registration with secure password storage.
     - User login and authentication.
   - **Event Interaction:**  
     - Viewing a list of upcoming events.
@@ -82,6 +82,19 @@ The Event Management Application is a full-stack web application that allows use
 
 - **Admin Dashboard**  
   The system provides an admin dashboard where administrators can view and manage all events and registrations efficiently.
+
+# Technology Stack
+
+## Backend
+
+- Java: Core business logic and data processing
+- Spring Boot: Production ready configuration files
+- MySQL: Relational database for storing app data (rally data, users data)
+- Node.js: API server requests
+
+## Frontend
+
+- React.js: Component library for modern app design
 
 # Project Roadmap 🗺️
 
