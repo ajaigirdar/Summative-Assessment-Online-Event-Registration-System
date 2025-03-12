@@ -1,5 +1,9 @@
 # Summative-Assessment-Online-Event-Registration-System
 
+## Project Overview
+
+The Event Management Application is a full-stack web application that allows users to view and register for events while providing administrators with tools to manage events. The project integrates a Java Spring Boot backend with a MySQL database and a React-based frontend. The application aims to provide a user-friendly interface, secure authentication, and role-based access to ensure that only authorized users can manage events.
+
 ## Features
 
 - **User Registration & Login:**  
@@ -13,6 +17,29 @@
 
 - **Role-Based Security:**  
   Endpoints are secured by user roles (`ROLE_USER` and `ROLE_ADMIN`).
+
+  ## In Scope
+
+- **User Features:**
+  - **Account Management:**  
+    - User registration with secure password storage (using BCrypt).
+    - User login and authentication.
+  - **Event Interaction:**  
+    - Viewing a list of upcoming events.
+    - Viewing event details (description, date, time, location).
+    - Event registration for logged-in users.
+    
+- **Admin Features:**
+  - **Authentication and Authorization:**  
+    - Admin login using secure credentials.
+    - Role-based access control to restrict administrative functions.
+  - **Event Management:**  
+    - Creating new events by entering event details.
+    - Updating existing events.
+    - Deleting events.
+  - **Dashboard Overview:**  
+    - Viewing a summary of events and registrations for monitoring and management purposes.
+
 
 
 # User Stories
