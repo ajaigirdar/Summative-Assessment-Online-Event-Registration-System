@@ -1,4 +1,4 @@
-# Summative-Assessment-Online-Event-Registration-System
+# Online Event Registration System 📅
 
 ## Project Overview
 
@@ -42,7 +42,7 @@ The Event Management Application is a full-stack web application that allows use
 
 
 
-# User Stories
+# User Stories 📝
 
 ## 1. User Registration and Authentication
 
@@ -82,3 +82,28 @@ The Event Management Application is a full-stack web application that allows use
 
 - **Admin Dashboard**  
   The system provides an admin dashboard where administrators can view and manage all events and registrations efficiently.
+
+# Project Roadmap 🗺️
+
+| Day Number | Date        | Day       | Activities                 |
+|------------|-------------|-----------|----------------------------|
+| x          | 03-10 2025  | Monday    | Planning Day               |
+| 17         | 03-11 2025  | Tuesday   | React All Day              |
+| 16         | 03-12 2025  | Wednesday | React Half Day, Design     |
+| 15         | 03-13 2025  | Thursday  | React All Day              |
+| 14         | 03-14 2025  | Friday    | React Half Day, Design     |
+| 13         | 03-15 2025  | Saturday  | Project Design             |
+| 12         | 03-16 2025  | Sunday    | Project Design             |
+| 11         | 03-17 2025  | Monday    | Python All Day             |
+| 10         | 03-18 2025  | Tuesday   | Python All Day             |
+| 9          | 03-19 2025  | Wednesday | Python All Day             |
+| 8          | 03-20 2025  | Thursday  | Project                    |
+| 7          | 03-21 2025  | Friday    | Project, Cloud             |
+| 6          | 03-22 2025  | Saturday  | Project                    |
+| 5          | 03-23 2025  | Sunday    | Project                    |
+| 4          | 03-24 2025  | Monday    | Project, Cloud             |
+| 3          | 03-25 2025  | Tuesday   | Project                    |
+| 2          | 03-26 2025  | Wednesday | Project, Cloud             |
+| 1          | 03-27 2025  | Thursday  | Project                    |
+|            | 03-28 2025  | Friday    | Presentation Day           |
+
