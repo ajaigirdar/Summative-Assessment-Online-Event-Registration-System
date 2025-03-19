@@ -24,6 +24,7 @@ public class Event {
     @JoinColumn(name = "location_id")
     private Location location;
 
+    @Column(name = "image_url")
     private String imageUrl;
 
     public Event() {
