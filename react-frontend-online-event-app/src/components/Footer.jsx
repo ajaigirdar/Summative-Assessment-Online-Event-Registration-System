@@ -15,7 +15,7 @@ export default function Footer() {
 
         {/* Copyright Information */}
         <div className="footer-copy">
-          <p>&copy; {currentYear} Eventz | All rights reserved</p>
+          <p>&copy; {currentYear} Eventz | All Rights Reserved</p>
         </div>
 
         {/* Social Media Icons */}
@@ -25,28 +25,28 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <i class="fa-brands fa-twitter"></i>
+            <i className="fa-brands fa-twitter"></i>
           </a>
           <a
             href="https://www.facebook.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <i class="fa-brands fa-facebook-f"></i>
+            <i className="fa-brands fa-facebook-f"></i>
           </a>
           <a
             href="https://www.instagram.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <i class="fa-brands fa-square-instagram"></i>
+            <i className="fa-brands fa-square-instagram"></i>
           </a>
           <a
             href="https://www.reddit.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <i class="fa-brands fa-reddit"></i>
+            <i className="fa-brands fa-reddit"></i>
           </a>
         </div>
       </div>

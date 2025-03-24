@@ -1,4 +1,3 @@
-// src/components/EventList.jsx
 import React from 'react';
 import './EventList.css';
 
@@ -15,7 +14,6 @@ export default function EventList({
     <div className="event-list-container">
       {events.map((event) => (
         <div className="event-card" key={event.eventId}>
-          {/* Image section */}
           <div className="event-card-image-wrapper">
             {event.imageUrl ? (
               <img
@@ -24,7 +22,6 @@ export default function EventList({
                 alt={event.title}
               />
             ) : (
-              // Fallback image if no event.imageUrl
               <img
                 className="event-card-image"
                 src="https://placehold.co/600x400"
@@ -32,8 +29,6 @@ export default function EventList({
               />
             )}
           </div>
-
-          {/* Text content */}
           <div className="event-card-content">
             <h3 className="event-card-title">{event.title}</h3>
             <p className="event-card-date">
@@ -46,16 +41,12 @@ export default function EventList({
             </p>
             <p className="event-card-description">{event.description}</p>
           </div>
-
-          {/* Admin controls */}
           {admin && (
             <div className="admin-buttons">
               <button onClick={() => onUpdate(event.eventId)}>Update</button>
               <button onClick={() => onDelete(event.eventId)}>Delete</button>
             </div>
           )}
-
-          {/* User controls */}
           {user && (
             <div className="user-buttons">
               {event.isRegistered ? (

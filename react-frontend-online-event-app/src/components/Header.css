@@ -1,13 +1,13 @@
-.header {
+header {
   background-color: #b0d2b0;
   display: flex;
   justify-content: space-between;
-  /* padding: 10px 0px; */
+  padding: 10px 10px 10px 10px;
   align-items: center;
   width: 100%;
 }
 
-header .logo h1 {
+.logo h1 {
   margin: 0;
   font-size: 40px;
   color: #000000;

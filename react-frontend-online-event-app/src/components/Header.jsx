@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.css';
 
-const Header = () => {
+const Header = ({ user, onLogout }) => {
   return (
     <header className="header">
       <div className="logo">
@@ -15,12 +15,30 @@ const Header = () => {
       </div>
       <nav>
         <ul>
-          <li>
-            <a href="/login">Log In</a>
-          </li>
-          <li>
-            <a href="/signup">Sign Up</a>
-          </li>
+          {user ? (
+            <>
+              <li>
+                <span>Welcome, {user.email}</span>
+              </li>
+              {user.role === 'ADMIN' && (
+                <li>
+                  <a href="/admin">Admin</a>
+                </li>
+              )}
+              <li>
+                <button onClick={onLogout}>Log Out</button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <a href="/login">Log In</a>
+              </li>
+              <li>
+                <a href="/signup">Sign Up</a>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </header>

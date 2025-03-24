@@ -5,14 +5,25 @@
   width: 100%;
   min-height: 84vh;
   padding: 20px 0;
-  background-color: #76d76d;
+  background-color: #f9f6f6;
 }
 
 .signup-form-container {
-  background-color: white;
+  /* background-color: white;
   padding: 20px;
   border-radius: 15px;
   width: 300px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
 }
 
 .signup-form-container h2 {

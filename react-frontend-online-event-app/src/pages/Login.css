@@ -1,31 +1,23 @@
-/* src/pages/Login.css */
-
-/* 
-  Full-width container. 
-  Flexbox used to center the inner container horizontally (and vertically if desired).
-*/
 .login-page {
   width: 100%;
-  min-height: 84vh; /* Let it fill the browser vertically */
-  background-color: #f4f4f4; /* Or match your brand color */
+  min-height: 84vh;
+  background-color: #f4f4f4;
   display: flex;
-  justify-content: center; /* Horizontal center */
-  align-items: center; /* Align to the top, or center if you want vertical centering */
-  padding-top: 2rem; /* Some space from the top */
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
   margin: 0;
   box-sizing: border-box;
 }
 
-/* Narrow container for the form itself */
 .login-form-container {
   background-color: #fff;
-  width: 320px; /* Constrain the form width here */
+  width: 320px;
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Headings, labels, inputs, etc. */
 .login-form-container h2 {
   text-align: center;
   margin-bottom: 1rem;
