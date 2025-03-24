@@ -13,6 +13,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -24,39 +29,29 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors().and() // Enable CORS
                 .authorizeHttpRequests(authz -> authz
-                        // Allow anyone to access GET requests on /api/events
                         .requestMatchers(HttpMethod.GET, "/api/events/**").permitAll()
-
-                        // Explicitly allow POST to /api/users/signup for user registration
+                        .requestMatchers(HttpMethod.GET, "/api/locations").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
-
-                        // Allow public access to static resources, login, and signup pages if needed
                         .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
-
-                        // Restrict CRUD operations to ADMIN role only
                         .requestMatchers(HttpMethod.POST, "/api/events").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/events/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/events/**").hasRole("ADMIN")
-
-                        // For all other requests, authentication is required
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
-    // for password hashing
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Define UserDetailsService to load users from the database
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-            // Username is the email
             return userRepository.findByEmail(username)
                     .map(user -> org.springframework.security.core.userdetails.User
                             .withUsername(user.getEmail())
@@ -65,5 +60,17 @@ public class SecurityConfig {
                             .build())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
         };
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Match your React port
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(true); // For Basic Auth
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 }
