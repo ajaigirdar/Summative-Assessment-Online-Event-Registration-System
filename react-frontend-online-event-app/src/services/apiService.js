@@ -12,7 +12,14 @@ export function getLocations() {
   return axios.get(`${API_BASE_URL}/api/locations`);
 }
 
-// Sign up a new user (public)
+// Login by verifying credentials
+export function loginUser(email, password) {
+  return axios.get(`${API_BASE_URL}/api/events`, {
+    auth: { username: email, password },
+  });
+}
+
+// Signup by sending user data to the backend
 export function signupUser(name, email, password) {
   return axios.post(`${API_BASE_URL}/api/users/signup`, {
     name,
@@ -21,30 +28,30 @@ export function signupUser(name, email, password) {
   });
 }
 
-// Login a user
-export function loginUser(email, password) {
-  return axios.get(`${API_BASE_URL}/api/events`, {
-    auth: { username: email, password },
-  });
-}
-
-// Create an event (admin-only)
+// Create a new event (admin only)
 export function createEvent(eventData, credentials) {
   return axios.post(`${API_BASE_URL}/api/events`, eventData, {
     auth: credentials,
   });
 }
 
-// Update an event (admin-only)
+// Update an existing event (admin only)
 export function updateEvent(eventId, eventData, credentials) {
   return axios.put(`${API_BASE_URL}/api/events/${eventId}`, eventData, {
     auth: credentials,
   });
 }
 
-// Delete an event (admin-only)
+// Delete an event (admin only)
 export function deleteEvent(eventId, credentials) {
   return axios.delete(`${API_BASE_URL}/api/events/${eventId}`, {
+    auth: credentials,
+  });
+}
+
+// Get the current authenticated user's details
+export function getCurrentUser(credentials) {
+  return axios.get(`${API_BASE_URL}/api/users/me`, {
     auth: credentials,
   });
 }

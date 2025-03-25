@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signupUser } from '../services/apiService';
+import { signupUser, getCurrentUser } from '../services/apiService';
 import './Signup.css';
 
 const Signup = ({ setUser, setCredentials }) => {
@@ -13,36 +13,53 @@ const Signup = ({ setUser, setCredentials }) => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleChange = (e) =>
+  // Handler for input changes in the signup form
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
+  // Handler for form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      setMessage('Passwords do not match');
+      setMessage('Passwords do not match.');
       return;
     }
     signupUser(formData.name, formData.email, formData.password)
-      .then((response) => {
-        // Auto-login after signup
-        setUser({ email: formData.email, role: 'USER' });
-        setCredentials({
+      .then(() => {
+        getCurrentUser({
           username: formData.email,
           password: formData.password,
-        });
-        localStorage.setItem(
-          'userCredentials',
-          JSON.stringify({
-            email: formData.email,
-            password: formData.password,
+        })
+          .then((response) => {
+            const { name, email, role } = response.data;
+            setMessage('Signup successful! Redirecting...');
+            setUser({ name, email, role });
+            setCredentials({
+              username: formData.email,
+              password: formData.password,
+            });
+            localStorage.setItem(
+              'userCredentials',
+              JSON.stringify({
+                email: formData.email,
+                password: formData.password,
+              })
+            );
+            setTimeout(() => navigate('/'), 1000);
           })
-        );
-        setMessage('Signup successful! Redirecting...');
-        setTimeout(() => navigate('/'), 1000);
-        setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+          .catch((error) => {
+            setMessage('Failed to fetch user details after signup.');
+            console.error(
+              'Fetch user error:',
+              error.response?.status,
+              error.response?.data
+            );
+          });
       })
       .catch((error) => {
-        setMessage(error.response?.data || 'Signup failed');
+        setMessage(`Signup failed: ${error.response?.data || 'Unknown error'}`);
+        console.error('Signup error:', error.response?.status);
       });
   };
 
@@ -52,38 +69,41 @@ const Signup = ({ setUser, setCredentials }) => {
         <h2>New User Sign Up</h2>
         {message && <p className="signup-message">{message}</p>}
         <form onSubmit={handleSubmit}>
-          <label htmlFor="name">Full Name:</label>
+          <label htmlFor="name">Name:</label>
           <input
-            type="text"
             id="name"
             name="name"
+            type="text"
             value={formData.name}
             onChange={handleChange}
             required
           />
-          <label htmlFor="email">Email Address:</label>
+
+          <label htmlFor="email">Email:</label>
           <input
-            type="email"
             id="email"
             name="email"
+            type="email"
             value={formData.email}
             onChange={handleChange}
             required
           />
+
           <label htmlFor="password">Password:</label>
           <input
-            type="password"
             id="password"
             name="password"
+            type="password"
             value={formData.password}
             onChange={handleChange}
             required
           />
+
           <label htmlFor="confirmPassword">Confirm Password:</label>
           <input
-            type="password"
             id="confirmPassword"
             name="confirmPassword"
+            type="password"
             value={formData.confirmPassword}
             onChange={handleChange}
             required

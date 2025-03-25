@@ -19,6 +19,8 @@ const AdminPage = ({ credentials }) => {
     imageUrl: '',
     location: null,
   });
+  const [editEvent, setEditEvent] = useState(null);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     fetchEvents();
@@ -37,6 +39,7 @@ const AdminPage = ({ credentials }) => {
       .catch((error) => console.error('Error fetching locations:', error));
   };
 
+  // Handler for input changes in the "Add New Event" form
   const handleInputChange = (e) => {
     if (e.target.name === 'location') {
       const selectedLocation = locations.find(
@@ -48,6 +51,7 @@ const AdminPage = ({ credentials }) => {
     }
   };
 
+  // Handler for submitting the "Add New Event" form
   const handleAddEvent = (e) => {
     e.preventDefault();
     createEvent(newEvent, credentials)
@@ -60,42 +64,59 @@ const AdminPage = ({ credentials }) => {
           imageUrl: '',
           location: null,
         });
+        setMessage('Event added successfully!');
       })
       .catch((error) =>
-        console.error('Error adding event:', error.response?.status)
+        setMessage(`Error adding event: ${error.response?.status}`)
       );
+  };
+
+  // Handler for input changes in the "Edit Event" modal form
+  const handleEditChange = (e) => {
+    if (e.target.name === 'location') {
+      const selectedLocation = locations.find(
+        (loc) => loc.locationId === parseInt(e.target.value)
+      );
+      setEditEvent({ ...editEvent, location: selectedLocation });
+    } else {
+      setEditEvent({ ...editEvent, [e.target.name]: e.target.value });
+    }
   };
 
   const handleUpdateEvent = (eventId) => {
-    const eventToUpdate = events.find((event) => event.eventId === eventId);
-    const updatedData = {
-      ...eventToUpdate,
-      title: `${eventToUpdate.title} (Updated)`,
-    };
-    updateEvent(eventId, updatedData, credentials)
-      .then((response) => {
-        setEvents(
-          events.map((event) =>
-            event.eventId === eventId ? response.data : event
-          )
+    if (!editEvent) {
+      const eventToUpdate = events.find((event) => event.eventId === eventId);
+      setEditEvent(eventToUpdate);
+      setMessage('');
+    } else {
+      updateEvent(eventId, editEvent, credentials)
+        .then((response) => {
+          setEvents(
+            events.map((event) =>
+              event.eventId === eventId ? response.data : event
+            )
+          );
+          setEditEvent(null);
+          setMessage('Event updated successfully!');
+        })
+        .catch((error) =>
+          setMessage(`Error updating event: ${error.response?.status}`)
         );
-      })
-      .catch((error) =>
-        console.error('Error updating event:', error.response?.status)
-      );
+    }
   };
 
+  // Handler for the "Delete" button
   const handleDeleteEvent = (eventId) => {
     deleteEvent(eventId, credentials)
       .then(() => {
         setEvents(events.filter((event) => event.eventId !== eventId));
+        setMessage('Event deleted successfully!');
       })
       .catch((error) =>
-        console.error('Error deleting event:', error.response?.status)
+        setMessage(`Error deleting event: ${error.response?.status}`)
       );
   };
 
-  // Check if user is authenticated
   if (!credentials) {
     return <div>Please log in as an admin to access this page.</div>;
   }
@@ -103,6 +124,13 @@ const AdminPage = ({ credentials }) => {
   return (
     <div className="admin-page">
       <h1>Admin - Manage Events</h1>
+
+      {message && (
+        <p className={message.includes('Error') ? 'error' : 'success'}>
+          {message}
+        </p>
+      )}
+      {/* Section for adding a new event */}
       <section className="admin-add-event">
         <h2>Add New Event</h2>
         <form onSubmit={handleAddEvent}>
@@ -155,7 +183,7 @@ const AdminPage = ({ credentials }) => {
               </option>
             ))}
           </select>
-          <button type="submit">Add Event</button>
+          <button type="submit">Add Event</button>{' '}
         </form>
       </section>
       <section className="admin-event-list">
@@ -167,6 +195,78 @@ const AdminPage = ({ credentials }) => {
           onDelete={handleDeleteEvent}
         />
       </section>
+      {editEvent && (
+        <div className="modal-overlay">
+          {' '}
+          <div className="modal-content">
+            {' '}
+            <h2>Edit Event</h2>
+            {/* Form for editing event details */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleUpdateEvent(editEvent.eventId);
+              }}
+            >
+              <label htmlFor="editTitle">Title:</label>
+              <input
+                id="editTitle"
+                name="title"
+                type="text"
+                value={editEvent.title}
+                onChange={handleEditChange}
+                required
+              />
+              <label htmlFor="editDateTime">Date & Time:</label>
+              <input
+                id="editDateTime"
+                name="dateTime"
+                type="datetime-local"
+                value={editEvent.dateTime.slice(0, 16)}
+                onChange={handleEditChange}
+                required
+              />
+              <label htmlFor="editDescription">Description:</label>
+              <textarea
+                id="editDescription"
+                name="description"
+                value={editEvent.description}
+                onChange={handleEditChange}
+                required
+              />
+              <label htmlFor="editImageUrl">Image URL:</label>
+              <input
+                id="editImageUrl"
+                name="imageUrl"
+                type="url"
+                value={editEvent.imageUrl}
+                onChange={handleEditChange}
+              />
+              <label htmlFor="editLocation">Location:</label>
+              <select
+                id="editLocation"
+                name="location"
+                value={editEvent.location?.locationId || ''}
+                onChange={handleEditChange}
+                required
+              >
+                <option value="">Select a location</option>
+                {locations.map((loc) => (
+                  <option key={loc.locationId} value={loc.locationId}>
+                    {loc.roomName} ({loc.roomNumber})
+                  </option>
+                ))}
+              </select>
+              <div className="modal-buttons">
+                <button type="submit">Save Changes</button>{' '}
+                <button type="button" onClick={() => setEditEvent(null)}>
+                  Cancel
+                </button>{' '}
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

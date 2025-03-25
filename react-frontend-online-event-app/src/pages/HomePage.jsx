@@ -1,35 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import EventList from '../components/EventList';
+import { getEvents } from '../services/apiService';
 import './HomePage.css';
 
-export default function HomePage({ user }) {
+const HomePage = ({ user, credentials }) => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/events')
+    fetchEvents();
+  }, []);
+  // Fetch events from the backend
+  const fetchEvents = () => {
+    getEvents()
       .then((response) => setEvents(response.data))
       .catch((error) => console.error('Error fetching events:', error));
-  }, []);
-
-  // Placeholder handlers for registration
-  const handleRegister = (eventId) =>
-    console.log('Register for event:', eventId);
-  const handleUnregister = (eventId) =>
-    console.log('Unregister from event:', eventId);
+  };
 
   return (
     <div className="home-page">
-      <h1>
-        <strong>Our top picks for 2025</strong>
-      </h1>
-      <EventList
-        events={events}
-        user={!!user} // Enable user mode if logged in
-        onRegister={handleRegister}
-        onUnregister={handleUnregister}
-      />
+      <section className="hero-section">
+        {' '}
+        <h1>Welcome to Eventz</h1>
+        <p>Discover and join exciting events near you!</p>
+      </section>
+
+      <section className="events-section">
+        <h2>Our top picks for 2025</h2>{' '}
+        <EventList
+          events={events}
+          admin={false}
+          user={user}
+          credentials={credentials}
+        />
+      </section>
     </div>
   );
-}
+};
+
+export default HomePage;

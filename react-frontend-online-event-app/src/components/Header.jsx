@@ -1,31 +1,24 @@
 import React from 'react';
 import './Header.css';
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ user, onLogout, credentials }) => {
   return (
     <header className="header">
       <div className="logo">
-        <a href="/">
-          <h1>eventz</h1>
-        </a>
-      </div>
-      <div className="search-bar">
-        <input type="text" placeholder="Search events" />
-        <button>🔍</button>
+        <h1>
+          <a href="/">eventz</a>
+        </h1>
       </div>
       <nav>
-        <ul>
+        <ul className="nav-links">
           {user ? (
             <>
               <li>
-                <span>Welcome, {user.email}</span>
+                <span>Welcome, {user.name}</span>{' '}
+                {/* Displays user's name from backend */}
               </li>
-              {user.role === 'ADMIN' && (
-                <li>
-                  <a href="/admin">Admin</a>
-                </li>
-              )}
               <li>
+                {/* <button onClick={onLogout}>Log Out</button> */}
                 <button onClick={onLogout}>Log Out</button>
               </li>
             </>
