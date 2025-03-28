@@ -1,10 +1,14 @@
+// Header.jsx
+// Component for the header with navigation links and search bar
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Add Link
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 const Header = ({ user, onLogout, onSearch }) => {
+  // State to manage the search input value
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Handle search input changes and pass the term to the parent component
   const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
@@ -15,7 +19,7 @@ const Header = ({ user, onLogout, onSearch }) => {
     <header className="header">
       <div className="logo">
         <h1>
-          <Link to="/">eventz</Link> {/* Use Link instead of <a> */}
+          <Link to="/">eventz</Link>
         </h1>
       </div>
       <div className="search-bar">
@@ -34,7 +38,7 @@ const Header = ({ user, onLogout, onSearch }) => {
           {user ? (
             <>
               <li>
-                <Link to="/profile">Profile</Link> {/* Use Link here too */}
+                <Link to="/profile">Profile</Link>
               </li>
               <li>
                 <span>Welcome, {user.name}</span>
@@ -46,10 +50,10 @@ const Header = ({ user, onLogout, onSearch }) => {
           ) : (
             <>
               <li>
-                <Link to="/login">Log In</Link> {/* Use Link here too */}
+                <Link to="/login">Log In</Link>
               </li>
               <li>
-                <Link to="/signup">Sign Up</Link> {/* Use Link here too */}
+                <Link to="/signup">Sign Up</Link>
               </li>
             </>
           )}

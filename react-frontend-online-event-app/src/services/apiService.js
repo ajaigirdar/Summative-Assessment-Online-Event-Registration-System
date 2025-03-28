@@ -1,8 +1,10 @@
+// apiService.js
+// Utility functions for making API requests to the backend
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080';
 
-// Fetch all events (public)
+// Fetch all events
 export function getEvents(credentials) {
   return axios.get(
     `${API_BASE_URL}/api/events`,
@@ -10,19 +12,19 @@ export function getEvents(credentials) {
   );
 }
 
-// Fetch all locations (public)
+// Fetch all locations
 export function getLocations() {
   return axios.get(`${API_BASE_URL}/api/locations`);
 }
 
-// Login by verifying credentials
+// Verify user credentials for login
 export function loginUser(email, password) {
   return axios.get(`${API_BASE_URL}/api/events`, {
     auth: { username: email, password },
   });
 }
 
-// Signup by sending user data to the backend
+// Create a new user account
 export function signupUser(name, email, password) {
   return axios.post(`${API_BASE_URL}/api/users/signup`, {
     name,
@@ -52,14 +54,14 @@ export function deleteEvent(eventId, credentials) {
   });
 }
 
-// Get the current authenticated user's details
+// Fetch the current user's details
 export function getCurrentUser(credentials) {
   return axios.get(`${API_BASE_URL}/api/users/me`, {
     auth: credentials,
   });
 }
 
-// Fetch user's registered events
+// Fetch the user's registered events
 export function getRegisteredEvents(credentials) {
   return axios.get(`${API_BASE_URL}/api/users/me/events`, {
     auth: credentials,

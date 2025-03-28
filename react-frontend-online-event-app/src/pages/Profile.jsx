@@ -1,24 +1,29 @@
+// Profile.jsx
+// Component for the profile page to display user info and registered events
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Add useNavigate
+import { useNavigate } from 'react-router-dom';
 import EventList from '../components/EventList';
 import { getRegisteredEvents, unregisterEvent } from '../services/apiService';
 import './Profile.css';
 
 const Profile = ({ user, credentials, searchTerm }) => {
+  // State for managing registered events and filtered events
   const [registeredEvents, setRegisteredEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const navigate = useNavigate(); // Add useNavigate
+  const navigate = useNavigate();
 
+  // Fetch registered events and redirect if not logged in
   useEffect(() => {
     if (!user) {
-      navigate('/'); // Redirect to homepage if user is null
+      navigate('/');
       return;
     }
     if (user && credentials) {
       fetchRegisteredEvents();
     }
-  }, [user, credentials, navigate]); // Add navigate to dependencies
+  }, [user, credentials, navigate]);
 
+  // Filter registered events based on search term
   useEffect(() => {
     if (searchTerm) {
       const lowerSearch = searchTerm.toLowerCase();
@@ -50,6 +55,7 @@ const Profile = ({ user, credentials, searchTerm }) => {
       );
   };
 
+  // Handle unregistration from an event
   const handleUnregister = (eventId) => {
     console.log('Unregister clicked for event:', eventId);
     unregisterEvent(eventId, credentials)

@@ -1,14 +1,16 @@
+// EventList.jsx
+// Reusable component to display a list of events as cards
 import React from 'react';
 import './EventList.css';
 
 export default function EventList({
-  events = [],
-  admin = false,
-  onUpdate,
-  onDelete,
-  user = false,
-  onRegister,
-  onUnregister,
+  events = [], // List of events to display
+  admin = false, // Show admin buttons (Update, Delete) if true
+  onUpdate, // Callback for updating an event
+  onDelete, // Callback for deleting an event
+  user = false, // Show user buttons (Register, Unregister) if true
+  onRegister, // Callback for registering for an event
+  onUnregister, // Callback for unregistering from an event
 }) {
   return (
     <div className="event-list-container">

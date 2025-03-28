@@ -1,25 +1,26 @@
+// Login.jsx
+// Component for the login page to authenticate users
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, getCurrentUser } from '../services/apiService';
 import './Login.css';
 
-// Login component receives setUser and setCredentials props from App.jsx
 const Login = ({ setUser, setCredentials }) => {
-  // State to manage form inputs (email and password)
+  // State for form inputs
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
-  // State to display error messages if login fails
+  // State for error messages
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
-  // Handler for input changes in the login form
+  // Update form data on input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handler for form submission
+  // Handle form submission to log in
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Attempting login with:', formData);
@@ -44,7 +45,6 @@ const Login = ({ setUser, setCredentials }) => {
                 password: formData.password,
               })
             );
-            // Redirect based on role
             navigate(role === 'ADMIN' ? '/admin' : '/');
           })
           .catch((error) => {

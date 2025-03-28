@@ -1,3 +1,5 @@
+// App.jsx
+// Main application component that sets up routing, session management, and search functionality
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -15,12 +17,17 @@ import Profile from './pages/Profile';
 import { getCurrentUser } from './services/apiService';
 import './App.css';
 
+// AppWrapper contains the main app logic, wrapped in Router for navigation
 function AppWrapper() {
+  // State to manage the current user (name, email, role)
   const [user, setUser] = useState(null);
+  // State to manage user credentials for authenticated API calls
   const [credentials, setCredentials] = useState(null);
+  // State to manage the search term for filtering events
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
+  // Restore session from localStorage on app load
   useEffect(() => {
     const storedCredentials = localStorage.getItem('userCredentials');
     if (storedCredentials) {
@@ -43,6 +50,7 @@ function AppWrapper() {
     }
   }, []);
 
+  // Handle logout by clearing session and redirecting to homepage
   const handleLogout = () => {
     console.log('Logging out... Current path:', window.location.pathname);
     setUser(null);
@@ -51,9 +59,10 @@ function AppWrapper() {
     setTimeout(() => {
       navigate('/', { replace: true });
       console.log('Navigated to /');
-    }, 0); // Delay to ensure state updates
+    }, 0);
   };
 
+  // Update search term when the user types in the search bar
   const handleSearch = (term) => {
     setSearchTerm(term);
   };
@@ -106,6 +115,7 @@ function AppWrapper() {
   );
 }
 
+// App component wraps AppWrapper with Router for navigation
 function App() {
   return (
     <Router>

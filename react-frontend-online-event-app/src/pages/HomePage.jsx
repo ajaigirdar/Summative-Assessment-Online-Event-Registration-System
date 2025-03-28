@@ -1,3 +1,5 @@
+// HomePage.jsx
+// Component for the homepage displaying a list of events
 import React, { useState, useEffect } from 'react';
 import EventList from '../components/EventList';
 import {
@@ -8,15 +10,17 @@ import {
 import './HomePage.css';
 
 const HomePage = ({ user, credentials, searchTerm }) => {
+  // State for managing events and filtered events
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
 
+  // Fetch events on component mount
   useEffect(() => {
-    fetchEvents(); // Always fetch events on mount
-  }, []); // Empty dependency array to run once on mount
+    fetchEvents();
+  }, []);
 
+  // Filter events based on search term
   useEffect(() => {
-    // Filter events based on search term
     if (searchTerm) {
       const lowerSearch = searchTerm.toLowerCase();
       setFilteredEvents(
@@ -44,6 +48,7 @@ const HomePage = ({ user, credentials, searchTerm }) => {
       .catch((error) => console.error('Error fetching events:', error));
   };
 
+  // Handle event registration
   const handleRegister = (eventId) => {
     console.log('Register clicked for event:', eventId);
     console.log('Credentials:', credentials);
@@ -67,6 +72,7 @@ const HomePage = ({ user, credentials, searchTerm }) => {
       });
   };
 
+  // Handle event unregistration
   const handleUnregister = (eventId) => {
     console.log('Unregister clicked for event:', eventId);
     unregisterEvent(eventId, credentials)

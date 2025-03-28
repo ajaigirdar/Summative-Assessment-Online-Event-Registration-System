@@ -151,7 +151,6 @@
   background-color: #bbb;
 }
 
-/* New styles for confirmation dialog buttons */
 .confirm-button {
   background-color: #f44336 !important; /* Red for "Yes" */
   color: white !important;

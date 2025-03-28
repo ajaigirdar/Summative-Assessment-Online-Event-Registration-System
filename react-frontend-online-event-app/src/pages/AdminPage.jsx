@@ -1,3 +1,5 @@
+// AdminPage.jsx
+// Component for the admin page to manage events (add, update, delete)
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import EventList from '../components/EventList';
@@ -11,6 +13,7 @@ import {
 import './AdminPage.css';
 
 const AdminPage = ({ credentials }) => {
+  // State for managing events, locations, and form data
   const [events, setEvents] = useState([]);
   const [locations, setLocations] = useState([]);
   const [newEvent, setNewEvent] = useState({
@@ -22,10 +25,11 @@ const AdminPage = ({ credentials }) => {
   });
   const [editEvent, setEditEvent] = useState(null);
   const [message, setMessage] = useState('');
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // State for confirmation dialog
-  const [eventToDelete, setEventToDelete] = useState(null); // Track event to delete
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState(null);
   const navigate = useNavigate();
 
+  // Fetch events and locations on mount, redirect if not logged in
   useEffect(() => {
     if (!credentials) {
       navigate('/');
@@ -47,6 +51,7 @@ const AdminPage = ({ credentials }) => {
       .catch((error) => console.error('Error fetching locations:', error));
   };
 
+  // Handle input changes for the add event form
   const handleInputChange = (e) => {
     if (e.target.name === 'location') {
       const selectedLocation = locations.find(
@@ -58,6 +63,7 @@ const AdminPage = ({ credentials }) => {
     }
   };
 
+  // Handle form submission to add a new event
   const handleAddEvent = (e) => {
     e.preventDefault();
     createEvent(newEvent, credentials)
@@ -77,6 +83,7 @@ const AdminPage = ({ credentials }) => {
       );
   };
 
+  // Handle input changes for the edit event modal
   const handleEditChange = (e) => {
     if (e.target.name === 'location') {
       const selectedLocation = locations.find(
@@ -88,6 +95,7 @@ const AdminPage = ({ credentials }) => {
     }
   };
 
+  // Handle updating an event (open modal or save changes)
   const handleUpdateEvent = (eventId) => {
     if (!editEvent) {
       const eventToUpdate = events.find((event) => event.eventId === eventId);
@@ -110,11 +118,13 @@ const AdminPage = ({ credentials }) => {
     }
   };
 
+  // Handle opening the delete confirmation modal
   const handleDeleteEvent = (eventId) => {
-    setEventToDelete(eventId); // Store the event ID to delete
-    setShowDeleteConfirm(true); // Show the confirmation dialog
+    setEventToDelete(eventId);
+    setShowDeleteConfirm(true);
   };
 
+  // Confirm deletion of an event
   const confirmDelete = () => {
     deleteEvent(eventToDelete, credentials)
       .then(() => {
@@ -128,6 +138,7 @@ const AdminPage = ({ credentials }) => {
       );
   };
 
+  // Cancel deletion and close the modal
   const cancelDelete = () => {
     setShowDeleteConfirm(false);
     setEventToDelete(null);

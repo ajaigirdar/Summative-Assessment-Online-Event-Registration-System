@@ -1,8 +1,10 @@
+// Footer.jsx
+// Component for the footer displayed on all pages
 import React from 'react';
-import '../App.css';
 import './Footer.css';
 
 export default function Footer() {
+  // Get the current year for the copyright notice
   const currentYear = new Date().getFullYear();
 
   return (

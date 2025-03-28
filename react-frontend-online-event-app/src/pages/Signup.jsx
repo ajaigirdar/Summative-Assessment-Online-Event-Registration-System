@@ -1,24 +1,28 @@
+// Signup.jsx
+// Component for the signup page to create new user accounts
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signupUser, getCurrentUser } from '../services/apiService';
 import './Signup.css';
 
 const Signup = ({ setUser, setCredentials }) => {
+  // State for form inputs
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+  // State for success/error messages
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  // Handler for input changes in the signup form
+  // Update form data on input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handler for form submission
+  // Handle form submission to sign up
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
