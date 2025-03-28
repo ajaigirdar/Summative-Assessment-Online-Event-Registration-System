@@ -40,5 +40,5 @@ public class EventRegistrationApplication implements CommandLineRunner {
         } else {
             System.out.println("Admin user already exists: admin@eventz.com");
         }
-    }
+    }               
 }

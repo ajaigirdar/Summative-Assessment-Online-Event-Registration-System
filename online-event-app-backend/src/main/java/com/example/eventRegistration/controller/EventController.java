@@ -1,10 +1,16 @@
 package com.example.eventRegistration.controller;
 
 import com.example.eventRegistration.model.Event;
+import com.example.eventRegistration.model.Registration;
 import com.example.eventRegistration.repository.EventRepository;
+import com.example.eventRegistration.repository.RegistrationRepository;
+import com.example.eventRegistration.repository.UserRepository;
+import com.example.eventRegistration.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,10 +24,36 @@ public class EventController {
     @Autowired
     private EventRepository eventRepository;
 
-    // GET all events
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RegistrationRepository registrationRepository;
+
+    // GET all events (updated with isRegistered)
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents() {
+    public ResponseEntity<List<Event>> getAllEvents(@AuthenticationPrincipal UserDetails userDetails) {
         List<Event> events = eventRepository.findAll();
+        System.out.println("Fetching all events, userDetails: " + (userDetails != null ? userDetails.getUsername() : "null"));
+        if (userDetails != null) {
+            String email = userDetails.getUsername();
+            System.out.println("User email: " + email);
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            System.out.println("Found user: " + user.getUserId());
+            List<Registration> registrations = registrationRepository.findAll();
+            System.out.println("Registrations count: " + registrations.size());
+            events.forEach(event -> {
+                boolean isRegistered = registrations.stream()
+                        .anyMatch(reg -> reg.getUser().getUserId().equals(user.getUserId()) &&
+                                reg.getEvent().getEventId().equals(event.getEventId()));
+                event.setIsRegistered(isRegistered);
+                System.out.println("Event " + event.getEventId() + ": isRegistered = " + event.isRegistered());
+            });
+        } else {
+            System.out.println("No user logged in, setting all isRegistered to false");
+            events.forEach(event -> event.setIsRegistered(false));
+        }
         return ResponseEntity.ok(events);
     }
 

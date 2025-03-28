@@ -1,11 +1,17 @@
 package com.example.eventRegistration.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty; // Add this import
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
 public class Event {
+
+    @Transient
+    @JsonProperty("isRegistered") // Force JSON to use "isRegistered"
+    private boolean isRegistered = false;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +45,13 @@ public class Event {
     }
 
     // Getters and Setters
+    public boolean isRegistered() {
+        return isRegistered;
+    }
+
+    public void setIsRegistered(boolean isRegistered) {
+        this.isRegistered = isRegistered;
+    }
 
     public String getImageUrl() {
         return imageUrl;

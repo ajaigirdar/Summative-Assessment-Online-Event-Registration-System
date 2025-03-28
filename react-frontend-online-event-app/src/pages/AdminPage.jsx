@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import EventList from '../components/EventList';
 import {
   getEvents,
@@ -21,11 +22,18 @@ const AdminPage = ({ credentials }) => {
   });
   const [editEvent, setEditEvent] = useState(null);
   const [message, setMessage] = useState('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // State for confirmation dialog
+  const [eventToDelete, setEventToDelete] = useState(null); // Track event to delete
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!credentials) {
+      navigate('/');
+      return;
+    }
     fetchEvents();
     fetchLocations();
-  }, []);
+  }, [credentials, navigate]);
 
   const fetchEvents = () => {
     getEvents()
@@ -39,7 +47,6 @@ const AdminPage = ({ credentials }) => {
       .catch((error) => console.error('Error fetching locations:', error));
   };
 
-  // Handler for input changes in the "Add New Event" form
   const handleInputChange = (e) => {
     if (e.target.name === 'location') {
       const selectedLocation = locations.find(
@@ -51,7 +58,6 @@ const AdminPage = ({ credentials }) => {
     }
   };
 
-  // Handler for submitting the "Add New Event" form
   const handleAddEvent = (e) => {
     e.preventDefault();
     createEvent(newEvent, credentials)
@@ -71,7 +77,6 @@ const AdminPage = ({ credentials }) => {
       );
   };
 
-  // Handler for input changes in the "Edit Event" modal form
   const handleEditChange = (e) => {
     if (e.target.name === 'location') {
       const selectedLocation = locations.find(
@@ -105,16 +110,27 @@ const AdminPage = ({ credentials }) => {
     }
   };
 
-  // Handler for the "Delete" button
   const handleDeleteEvent = (eventId) => {
-    deleteEvent(eventId, credentials)
+    setEventToDelete(eventId); // Store the event ID to delete
+    setShowDeleteConfirm(true); // Show the confirmation dialog
+  };
+
+  const confirmDelete = () => {
+    deleteEvent(eventToDelete, credentials)
       .then(() => {
-        setEvents(events.filter((event) => event.eventId !== eventId));
+        setEvents(events.filter((event) => event.eventId !== eventToDelete));
         setMessage('Event deleted successfully!');
+        setShowDeleteConfirm(false);
+        setEventToDelete(null);
       })
       .catch((error) =>
         setMessage(`Error deleting event: ${error.response?.status}`)
       );
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirm(false);
+    setEventToDelete(null);
   };
 
   if (!credentials) {
@@ -130,7 +146,6 @@ const AdminPage = ({ credentials }) => {
           {message}
         </p>
       )}
-      {/* Section for adding a new event */}
       <section className="admin-add-event">
         <h2>Add New Event</h2>
         <form onSubmit={handleAddEvent}>
@@ -183,7 +198,7 @@ const AdminPage = ({ credentials }) => {
               </option>
             ))}
           </select>
-          <button type="submit">Add Event</button>{' '}
+          <button type="submit">Add Event</button>
         </form>
       </section>
       <section className="admin-event-list">
@@ -197,11 +212,8 @@ const AdminPage = ({ credentials }) => {
       </section>
       {editEvent && (
         <div className="modal-overlay">
-          {' '}
           <div className="modal-content">
-            {' '}
             <h2>Edit Event</h2>
-            {/* Form for editing event details */}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -258,12 +270,28 @@ const AdminPage = ({ credentials }) => {
                 ))}
               </select>
               <div className="modal-buttons">
-                <button type="submit">Save Changes</button>{' '}
+                <button type="submit">Save Changes</button>
                 <button type="button" onClick={() => setEditEvent(null)}>
                   Cancel
-                </button>{' '}
+                </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {showDeleteConfirm && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete this event?</p>
+            <div className="modal-buttons">
+              <button onClick={confirmDelete} className="confirm-button">
+                Yes
+              </button>
+              <button onClick={cancelDelete} className="cancel-button">
+                No
+              </button>
+            </div>
           </div>
         </div>
       )}

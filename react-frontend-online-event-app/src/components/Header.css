@@ -1,77 +1,113 @@
-header {
-  background-color: #b0d2b0;
+.header {
   display: flex;
   justify-content: space-between;
-  padding: 10px 10px 10px 10px;
   align-items: center;
-  width: 100%;
+  padding: 10px 20px;
+  background-color: #d4e4d2; /* Light green background */
+  height: 60px;
 }
 
 .logo h1 {
   margin: 0;
-  font-size: 40px;
-  color: #000000;
-  text-shadow:
-    0 0 5px #deeb2d,
-    0 0 10px #6dced7,
-    0 0 15px #663cbf;
-  /* font-family: 'Maven Pro', sans-serif;
-  font-size: 50px;
-  font-weight: 600; */
+  font-size: 28px;
+  font-weight: bold;
 }
 
-header .search-bar {
+.logo a {
+  text-decoration: none;
+  color: #000;
+}
+
+.search-bar {
+  flex-grow: 1;
+  margin: 0 30px;
+  position: relative; /* Important for absolute positioning of icon */
+  max-width: 400px;
+}
+
+/* The search input */
+.search-bar input {
+  width: 100%;
+  /* Notice the right padding is larger to prevent text overlap with the icon */
+  padding: 8px 45px 8px 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
+.search-bar input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* The circular icon on the right */
+.search-bar .search-icon {
+  position: absolute;
+  right: 10px; /* Adjust as needed */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px; /* Size of the magnifying glass icon */
+  color: #ffffff; /* Icon color */
+
+  /* Circle styling */
+  background-color: rgb(30, 24, 24);
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+
+  /* Center icon glyph within the circle */
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-header .search-bar input {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-right: 0px;
-}
-
-header .search-bar button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-header nav ul {
-  list-style-type: none;
+/* Nav styles */
+.nav-links {
+  list-style: none;
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 25px;
   margin: 0;
-  padding: 10px;
+  padding: 0;
 }
 
-header nav ul li {
+.nav-links li {
   display: inline;
 }
 
-header nav ul li a {
+.nav-links a {
   text-decoration: none;
-  color: #0c0404;
+  color: #000;
   font-size: 16px;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-header nav ul li button {
+.nav-links a:hover {
+  color: #555;
+}
+
+.nav-links span {
+  font-size: 16px;
+  color: #000;
+  font-weight: 500;
+}
+
+.nav-links button {
   background: none;
   border: none;
-  padding: 0;
-  color: #ff0000;
+  color: #000;
   font-size: 16px;
-  text-decoration: none;
+  font-weight: 500;
   cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
 }
 
-header nav ul li button:hover {
-  transform: translateY(-2px);
-}
-
-.header .logo a {
-  text-decoration: none;
-  color: #000000;
+.nav-links button:hover {
+  color: #555;
 }

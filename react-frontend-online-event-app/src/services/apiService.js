@@ -3,8 +3,11 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:8080';
 
 // Fetch all events (public)
-export function getEvents() {
-  return axios.get(`${API_BASE_URL}/api/events`);
+export function getEvents(credentials) {
+  return axios.get(
+    `${API_BASE_URL}/api/events`,
+    credentials ? { auth: credentials } : {}
+  );
 }
 
 // Fetch all locations (public)
@@ -52,6 +55,31 @@ export function deleteEvent(eventId, credentials) {
 // Get the current authenticated user's details
 export function getCurrentUser(credentials) {
   return axios.get(`${API_BASE_URL}/api/users/me`, {
+    auth: credentials,
+  });
+}
+
+// Fetch user's registered events
+export function getRegisteredEvents(credentials) {
+  return axios.get(`${API_BASE_URL}/api/users/me/events`, {
+    auth: credentials,
+  });
+}
+
+// Register for an event
+export function registerEvent(eventId, credentials) {
+  return axios.post(
+    `${API_BASE_URL}/api/events/${eventId}/register`,
+    {},
+    {
+      auth: credentials,
+    }
+  );
+}
+
+// Unregister from an event
+export function unregisterEvent(eventId, credentials) {
+  return axios.delete(`${API_BASE_URL}/api/events/${eventId}/register`, {
     auth: credentials,
   });
 }
