@@ -1,5 +1,3 @@
-// AdminPage.jsx
-// Component for the admin page to manage events (add, update, delete)
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import EventList from '../components/EventList';

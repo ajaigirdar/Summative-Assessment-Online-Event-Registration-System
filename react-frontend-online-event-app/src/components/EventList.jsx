@@ -1,5 +1,3 @@
-// EventList.jsx
-// Reusable component to display a list of events as cards
 import React from 'react';
 import './EventList.css';
 

@@ -43,7 +43,7 @@ public class RegistrationController {
         return ResponseEntity.ok(registeredEvents);
     }
 
-    // Register for an event
+    // Register the current user for an event
     @PostMapping("/events/{id}/register")
     public ResponseEntity<String> registerForEvent(
             @PathVariable Long id,
@@ -67,7 +67,7 @@ public class RegistrationController {
         return ResponseEntity.ok("Registered successfully");
     }
 
-    // Unregister from an event
+    // Unregister the current user from an event
     @DeleteMapping("/events/{id}/register")
     public ResponseEntity<String> unregisterFromEvent(
             @PathVariable Long id,

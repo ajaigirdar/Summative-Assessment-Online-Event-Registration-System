@@ -1,5 +1,3 @@
-// Login.jsx
-// Component for the login page to authenticate users
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, getCurrentUser } from '../services/apiService';

@@ -1,5 +1,3 @@
-// HomePage.jsx
-// Component for the homepage displaying a list of events
 import React, { useState, useEffect } from 'react';
 import EventList from '../components/EventList';
 import {

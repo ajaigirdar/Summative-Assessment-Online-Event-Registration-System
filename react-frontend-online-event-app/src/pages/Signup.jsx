@@ -1,5 +1,3 @@
-// Signup.jsx
-// Component for the signup page to create new user accounts
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signupUser, getCurrentUser } from '../services/apiService';

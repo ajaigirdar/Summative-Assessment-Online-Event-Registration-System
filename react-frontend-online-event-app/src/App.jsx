@@ -1,5 +1,3 @@
-// App.jsx
-// Main application component that sets up routing, session management, and search functionality
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,

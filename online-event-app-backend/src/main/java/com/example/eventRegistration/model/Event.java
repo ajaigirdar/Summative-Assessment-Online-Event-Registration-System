@@ -1,7 +1,7 @@
 package com.example.eventRegistration.model;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonProperty; // Add this import
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Event {
 
     @Transient
-    @JsonProperty("isRegistered") // Force JSON to use "isRegistered"
+    @JsonProperty("isRegistered") // Ensure JSON uses "isRegistered" field name
     private boolean isRegistered = false;
 
     @Id

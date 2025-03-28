@@ -1,5 +1,3 @@
-// Footer.jsx
-// Component for the footer displayed on all pages
 import React from 'react';
 import './Footer.css';
 

@@ -15,7 +15,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Register a new user
+    // Register a new user with the provided details
     public User registerUser(String name, String email, String password, String role) {
         // Check if the email is already taken
         if (userRepository.findByEmail(email).isPresent()) {

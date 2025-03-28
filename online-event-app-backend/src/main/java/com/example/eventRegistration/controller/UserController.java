@@ -18,17 +18,19 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    // Handle user signup requests
     @PostMapping("/signup")
     public ResponseEntity<User> signup(@RequestBody User userRequest) {
         User user = userService.registerUser(
                 userRequest.getName(),
                 userRequest.getEmail(),
                 userRequest.getPassword(),
-                "USER"          // Fixed role for all signups
+                "USER" // All new users are assigned the USER role
         );
         return ResponseEntity.ok(user);
     }
 
+    // Get details of the currently authenticated user
     @GetMapping("/me")
     public ResponseEntity<User> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
         String email = userDetails.getUsername();

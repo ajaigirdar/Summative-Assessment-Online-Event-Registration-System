@@ -22,23 +22,20 @@ public class EventRegistrationApplication implements CommandLineRunner {
         SpringApplication.run(EventRegistrationApplication.class, args);
     }
 
-    // Runs after the application context is fully initialized
+    // Initialize an admin user if it doesn't exist
     @Override
     public void run(String... args) throws Exception {
         if (userRepository.findByEmail("admin@eventz.com").isEmpty()) {
-
             User admin = new User(
                     "Admin",
                     "admin@eventz.com",
                     passwordEncoder.encode("admin123"),
                     "ADMIN"
             );
-
             userRepository.save(admin);
-
             System.out.println("Admin user created: admin@eventz.com");
         } else {
             System.out.println("Admin user already exists: admin@eventz.com");
         }
-    }               
+    }
 }

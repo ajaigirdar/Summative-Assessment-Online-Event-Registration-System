@@ -1,5 +1,3 @@
-// Profile.jsx
-// Component for the profile page to display user info and registered events
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import EventList from '../components/EventList';

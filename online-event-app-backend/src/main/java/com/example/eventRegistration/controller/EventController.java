@@ -30,7 +30,7 @@ public class EventController {
     @Autowired
     private RegistrationRepository registrationRepository;
 
-    // GET all events (updated with isRegistered)
+    // Get all events, including registration status for the current user
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents(@AuthenticationPrincipal UserDetails userDetails) {
         List<Event> events = eventRepository.findAll();
@@ -57,7 +57,7 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
-    // GET event by ID
+    // Get an event by its ID
     @GetMapping("/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable Long id) {
         Optional<Event> eventOpt = eventRepository.findById(id);
@@ -65,14 +65,14 @@ public class EventController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Create an event
+    // Create a new event
     @PostMapping
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
         Event savedEvent = eventRepository.save(event);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
     }
 
-    // Update event
+    // Update an existing event
     @PutMapping("/{id}")
     public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event updatedEvent) {
         Optional<Event> eventOpt = eventRepository.findById(id);
@@ -90,7 +90,7 @@ public class EventController {
         }
     }
 
-    // Delete event
+    // Delete an event
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         Optional<Event> eventOpt = eventRepository.findById(id);

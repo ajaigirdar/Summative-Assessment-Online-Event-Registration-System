@@ -1,5 +1,3 @@
-// apiService.js
-// Utility functions for making API requests to the backend
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080';
